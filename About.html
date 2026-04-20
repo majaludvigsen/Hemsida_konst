@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maja Johanna</title>
+  <title>About | Maja Johanna</title>
   <style>
     * {
       box-sizing: border-box;
@@ -64,25 +64,25 @@
       padding: 50px 20px;
     }
 
-    .gallery-frame {
+    .content-frame {
       width: min(900px, 90vw);
-      text-align: center;
-    }
-
-    .artwork {
-      width: 100%;
-      max-height: 70vh;
-      object-fit: contain;
       border: 1px solid #d8d1c7;
       background: white;
-      padding: 10px;
+      padding: 32px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      line-height: 1.7;
+      color: #5b5148;
     }
 
-    .art-info {
-      margin-top: 16px;
-      font-size: 1rem;
-      color: #5b5148;
+    .content-frame h2 {
+      color: #2f2a26;
+      margin-bottom: 16px;
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+
+    .content-frame p + p {
+      margin-top: 12px;
     }
 
     footer {
@@ -109,6 +109,10 @@
       nav ul {
         justify-content: center;
       }
+
+      .content-frame {
+        padding: 24px;
+      }
     }
   </style>
 </head>
@@ -119,20 +123,24 @@
     <nav>
       <ul>
         <li><a href="About.html">About</a></li>
-        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
         <li><a href="#shop">Shop</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <section class="gallery-frame" id="gallery">
-      <img
-        class="artwork"
-        src="bild1.jpg"
-        alt="Konstverk av Maja Johanna"
-      />
-      <p class="art-info">Titel på verket · 50 × 70 cm</p>
+    <section class="content-frame" id="about">
+      <h2>About</h2>
+      <p>
+        Maja Johanna arbetar med ett lugnt, poetiskt uttryck där färg, ljus och textur får samspela.
+      </p>
+      <p>
+        Hennes verk rör sig mellan naturens former och inre landskap, med fokus på närvaro och handens arbete.
+      </p>
+      <p>
+        På den här sidan kan du läsa mer om konstnärskapet, och i galleriet hittar du aktuella verk.
+      </p>
     </section>
   </main>
 
