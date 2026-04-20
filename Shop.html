@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop | Maja Johanna</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f8f6f2;
+      color: #2f2a26;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: relative;
+      padding: 40px 30px 20px;
+      border-bottom: 1px solid #d8d1c7;
+    }
+
+    .site-title {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      position: absolute;
+      top: 45px;
+      right: 30px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #2f2a26;
+      font-size: 1rem;
+      transition: opacity 0.2s ease;
+    }
+
+    nav a:hover {
+      opacity: 0.6;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+    }
+
+    .shop-frame {
+      width: min(900px, 90vw);
+      border: 1px solid #d8d1c7;
+      background: white;
+      padding: 32px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      color: #5b5148;
+    }
+
+    .shop-frame h2 {
+      color: #2f2a26;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .shop-intro {
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .product-card {
+      border: 1px solid #e5ddd2;
+      padding: 20px;
+      background: #fcfbf9;
+    }
+
+    .product-title {
+      color: #2f2a26;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+
+    .product-meta {
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .buy-btn {
+      border: 1px solid #2f2a26;
+      background: #2f2a26;
+      color: #f8f6f2;
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .buy-btn:hover {
+      opacity: 0.85;
+    }
+
+    .stripe-note {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: #7a7067;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #7a7067;
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding-top: 30px;
+      }
+
+      .site-title {
+        font-size: 2.2rem;
+      }
+
+      nav {
+        position: static;
+        margin-top: 20px;
+      }
+
+      nav ul {
+        justify-content: center;
+      }
+
+      .shop-frame {
+        padding: 24px;
+      }
+    }
+  </style>
+  <script src="https://js.stripe.com/v3"></script>
+</head>
+<body>
+  <header>
+    <h1 class="site-title">Maja Johanna</h1>
+
+    <nav>
+      <ul>
+        <li><a href="About.html">About</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="Shop.html">Shop</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="shop-frame" id="shop">
+      <h2>Shop</h2>
+      <p class="shop-intro">
+        En enkel start för butik. Här kan du köpa originalverk direkt online.
+      </p>
+
+      <article class="product-card">
+        <h3 class="product-title">Originalverk – Titel kommer snart</h3>
+        <p class="product-meta">50 × 70 cm · 2 900 SEK</p>
+        <button class="buy-btn" id="checkout-button" type="button">Betala med kort</button>
+        <p class="stripe-note">
+          Stripe är förberett. Nästa steg är att lägga in public key och koppla en backend-endpoint
+          (`/create-checkout-session`) som skapar Checkout Session med hemlig Stripe-nyckel.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    Senast uppdaterad 2026-04-20
+  </footer>
+
+  <script>
+    // TODO: Ersätt med din Stripe publishable key.
+    const STRIPE_PUBLISHABLE_KEY = "pk_test_REPLACE_ME";
+
+    const checkoutButton = document.getElementById("checkout-button");
+
+    checkoutButton.addEventListener("click", async () => {
+      if (!window.Stripe || STRIPE_PUBLISHABLE_KEY === "pk_test_REPLACE_ME") {
+        alert("Stripe är förberett men inte färdigkonfigurerat ännu.");
+        return;
+      }
+
+      const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+      const response = await fetch("/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          productId: "originalverk-001"
+        })
+      });
+
+      if (!response.ok) {
+        alert("Kunde inte starta betalning just nu.");
+        return;
+      }
+
+      const { sessionId } = await response.json();
+      await stripe.redirectToCheckout({ sessionId });
+    });
+  </script>
+</body>
+</html>
